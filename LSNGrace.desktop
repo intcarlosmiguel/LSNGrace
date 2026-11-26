@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=LSNGrace
+Comment=Gráficos científicos com o motor Grace
+Exec=/home/miguel/Downloads/grace/LSNGrace
+Path=/home/miguel/Downloads/grace
+Icon=applications-science
+Terminal=true
+Categories=Education;Science;DataVisualization;
+StartupNotify=false

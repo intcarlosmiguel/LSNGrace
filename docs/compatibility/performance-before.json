@@ -1,0 +1,26 @@
+[
+  {
+    "points": 208,
+    "editMs": 0.46,
+    "serializeMs": 0.39,
+    "encodingMs": 2.33,
+    "hitPathMs": 0.2,
+    "nativeMs": 51.5
+  },
+  {
+    "points": 10000,
+    "editMs": 10.58,
+    "serializeMs": 7.83,
+    "encodingMs": 40.29,
+    "hitPathMs": 8.93,
+    "nativeMs": 119.6
+  },
+  {
+    "points": 100000,
+    "editMs": 106.79,
+    "serializeMs": 66.25,
+    "encodingMs": 298.05,
+    "hitPathMs": 49.51,
+    "nativeMs": 397.1
+  }
+]
