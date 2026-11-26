@@ -66,3 +66,11 @@ usuários: uma tag de versão e um Release publicado são necessários.
 
 O servidor desktop escuta apenas `127.0.0.1:1421`; a porta estável mantém os
 rascunhos e o histórico entre execuções. Não execute outro serviço nessa porta.
+
+## Atalho local no Ubuntu
+
+O arquivo `LSNGrace.desktop` abre o pacote desktop através do script `LSNGrace`.
+O registro de inicialização fica em `~/.local/state/lsngrace/startup.log`.
+Quando usa AppImage sem FUSE, o iniciador habilita a extração e execução automática.
+Não altere arquivos nem execute builds de plataformas diferentes simultaneamente
+durante o empacotamento; os arquivos precisam permanecer estáveis até o fim do build.

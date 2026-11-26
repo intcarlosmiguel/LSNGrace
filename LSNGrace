@@ -1,17 +1,34 @@
 #!/usr/bin/env bash
 set -euo pipefail
 APP_DIR="$(cd -- "$(dirname -- "$(readlink -f -- "$0")")" && pwd)"
-
-# Atalhos gráficos nem sempre recebem o PATH configurado pelo terminal/nvm.
-if ! command -v node >/dev/null 2>&1; then
-  for candidate in "$HOME"/.nvm/versions/node/*/bin/node; do
-    if [[ -x "$candidate" ]]; then
-      export PATH="$(dirname -- "$candidate"):$PATH"
-    fi
-  done
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/lsngrace"
+mkdir -p "$STATE_DIR"
+LOG_FILE="$STATE_DIR/startup.log"
+# O AppImage preserva o suporte ao atualizador e pode rodar sem FUSE.
+shopt -s nullglob
+images=("$APP_DIR"/release/LSNGrace-*-x86_64.AppImage)
+if [[ "${1:-}" == "--no-open" ]]; then
+  exec node "$APP_DIR/scripts/start-lsngrace.mjs" "$@"
 fi
-if ! command -v node >/dev/null 2>&1; then
-  echo 'LSNGrace precisa do Node.js 24 ou superior.' >&2
+if (( ${#images[@]} )); then
+  APP_BINARY="${images[-1]}"
+  export APPIMAGE_EXTRACT_AND_RUN=1
+elif [[ -x "$APP_DIR/release/linux-unpacked/lsngrace" ]]; then
+  APP_BINARY="$APP_DIR/release/linux-unpacked/lsngrace"
+else
+  MESSAGE="Pacote desktop não encontrado. Execute npm run desktop:linux na pasta do projeto."
+  printf '%s\n' "$MESSAGE" | tee -a "$LOG_FILE" >&2
+  command -v zenity >/dev/null && zenity --error --title=LSNGrace --text="$MESSAGE" || true
   exit 1
 fi
-exec node "$APP_DIR/scripts/start-lsngrace.mjs" "$@"
+# Atalhos abertos a partir de editores não devem herdar o modo Node do Electron.
+unset ELECTRON_RUN_AS_NODE
+if "$APP_BINARY" "$@" >> "$LOG_FILE" 2>&1; then
+  exit 0
+else
+  RESULT=$?
+  MESSAGE="Não foi possível abrir o LSNGrace (código $RESULT). Veja o registro em $LOG_FILE."
+  printf '%s\n' "$MESSAGE" >&2
+  command -v zenity >/dev/null && zenity --error --title=LSNGrace --text="$MESSAGE" || true
+  exit "$RESULT"
+fi

@@ -40,6 +40,7 @@ jobs:
       - run: npx electron-builder --publish never
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - run: node scripts/validate-desktop.mjs
       - uses: actions/upload-artifact@v4
         with:
           name: LSNGrace-${{ matrix.os }}
