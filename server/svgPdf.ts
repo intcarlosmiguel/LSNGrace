@@ -1,9 +1,7 @@
-import { execFile } from 'node:child_process';
-import { promisify } from 'node:util';
+import { runScientific } from './runner';
 import { mkdtemp, writeFile, readFile, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-const run = promisify(execFile);
 // Use the system's vector SVG/PDF engines. No Python packages or network access.
 const converter = String.raw`
 import ctypes as C
@@ -78,11 +76,15 @@ export async function svgToPdf(
       output = join(directory, 'figure.pdf');
     await writeFile(input, svg);
     try {
-      await run('python3', ['-c', converter, input, output, String(page[0]), String(page[1])], {
-        timeout: 30000,
-        maxBuffer: 1024 * 1024,
-        signal,
-      });
+      await runScientific(
+        'python3',
+        ['-c', converter, input, output, String(page[0]), String(page[1])],
+        {
+          timeout: 30000,
+          maxBuffer: 1024 * 1024,
+          signal,
+        },
+      );
     } catch (error) {
       signal?.throwIfAborted();
       const e = error as Error & { stderr?: string };

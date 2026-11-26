@@ -52,7 +52,7 @@ export function useGrace(scene: Scene) {
         svg: '',
         warnings: [],
         error: engine.checked
-          ? 'O motor Grace original está indisponível. Execute npm run dev com gracebat instalado.'
+          ? 'Motor Grace indisponível. Linux: instale o pacote grace. Windows: instale WSL com Ubuntu e execute sudo apt install grace dentro dele.'
           : '',
         pending: !engine.checked,
         revision: scene,

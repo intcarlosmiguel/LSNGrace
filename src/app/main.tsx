@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
+import { DesktopUpdates } from '../features/updates/DesktopUpdates';
 import './styles.css';
 
 const container = document.getElementById('root');
@@ -9,6 +10,7 @@ const root = createRoot(container);
 root.render(
   <StrictMode>
     <App />
+    <DesktopUpdates />
   </StrictMode>,
 );
 // The bootstrap is separate from the component refresh boundary.

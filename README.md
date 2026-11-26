@@ -1,3 +1,7 @@
+# Aplicativo desktop e atualizações
+
+O projeto foi transferido para a pasta GitHub `LSNGrace`. Instruções de instalação, builds Windows/Linux e publicação: [docs/desktop.md](docs/desktop.md).
+
 # LSNGrace
 
 Ambiente de gráficos científicos inspirado no xmgrace. A aplicação permite criar figuras com dados próprios, importar tabelas e projetos Grace, ajustar eixos e séries e exportar o resultado. O núcleo do Marco 1 está acompanhado das primeiras entregas de UX e ingestão tabular.
@@ -6,7 +10,7 @@ Ambiente de gráficos científicos inspirado no xmgrace. A aplicação permite c
 
 No Linux, execute `./LSNGrace` ou abra o atalho **LSNGrace.desktop** nesta pasta (se o gerenciador de arquivos solicitar, permita sua execução). O iniciador compila a aplicação, inicia o servidor local e abre uma janela própria no Chrome/Chromium; em outros navegadores, abre uma aba. Abrir novamente reutiliza o servidor ativo. Fechar a janela mantém o servidor disponível.
 
-O iniciador requer Node.js 24+, npm e Grace (`gracebat`). Instala as dependências com `npm ci` quando necessário. Use `./LSNGrace --no-open` para iniciar sem abrir uma janela. O log fica em `.lsngrace/server.log`, e o PID em `.lsngrace/server.pid`. O atalho aponta para `/home/miguel/Downloads/grace`; ajuste seus campos `Exec` e `Path` se mover o projeto.
+O iniciador requer Node.js 24+, npm e Grace (`gracebat`). Instala as dependências com `npm ci` quando necessário. Use `./LSNGrace --no-open` para iniciar sem abrir uma janela. O log fica em `.lsngrace/server.log`, e o PID em `.lsngrace/server.pid`. O atalho aponta para `/home/miguel/Documentos/GitHub/LSNGrace`; ajuste seus campos `Exec` e `Path` se mover o projeto.
 
 Requisitos: Node.js 24 LTS, npm e **Grace (`gracebat`) no PATH**. Esta versão usa o programa original instalado para desenhar e salvar as figuras.
 

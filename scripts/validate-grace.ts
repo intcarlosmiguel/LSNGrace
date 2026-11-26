@@ -7,6 +7,7 @@ import { spawnSync } from 'node:child_process';
 import assert from 'node:assert/strict';
 import { parseAgr } from '../src/core/agr/parser';
 import { serializeAgr } from '../src/core/agr/serializer';
+import type { Graph } from '../src/core/scene/types';
 import { createDemo, createBlank, createSet } from '../src/core/scene/defaults';
 import { parseTable, mapColumns } from '../src/core/import/tabular';
 import { autoscaleGraph } from '../src/core/geometry/autoscale';
@@ -25,6 +26,24 @@ function importedTable() {
   graph.axes.yaxis.label.text = table.headers[1];
   autoscaleGraph(graph);
   return scene;
+}
+// Grace writes these defaults explicitly; older v1 scenes can omit them.
+function effectiveAxes(axes: Graph['axes']) {
+  return Object.fromEntries(
+    Object.entries(axes).map(([key, axis]) => [
+      key,
+      {
+        ...axis,
+        zero: axis.zero ?? false,
+        offset: axis.offset ?? [0, 0],
+        tickLabels: {
+          ...axis.tickLabels,
+          skip: axis.tickLabels.skip ?? 0,
+          stagger: axis.tickLabels.stagger ?? 0,
+        },
+      },
+    ]),
+  );
 }
 const dir = mkdtempSync(join(tmpdir(), 'lsngrace-'));
 try {
@@ -58,7 +77,7 @@ try {
       assert.deepEqual(saved.world, g.world);
       assert.deepEqual(saved.viewport, g.viewport);
       assert.equal(saved.title.text, g.title.text);
-      assert.deepEqual(saved.axes, g.axes);
+      assert.deepEqual(effectiveAxes(saved.axes), effectiveAxes(g.axes));
       assert.deepEqual(saved.frame, g.frame);
       assert.deepEqual(saved.legend, g.legend);
       assert.deepEqual(saved.subtitle, g.subtitle);
